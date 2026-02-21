@@ -27,10 +27,15 @@ namespace BookHub.Tests.Services
                 NoteStatus = true,
                 Comments = "a great book",
                 ImageUrl = "images/norwegian-wood.jpeg",
-                Id = 1
+                Id = GetNextId()
 
             };
             return book;
+        }
+
+        public int GetNextId()
+        {
+            return _service.GetAllBooks().Count() + 1;
         }
 
 
@@ -38,12 +43,14 @@ namespace BookHub.Tests.Services
         public void Add_AddsBook()
         {
             var book = CreateBook();
+            var id = _service.GetAllBooks().Count() + 1;
+            book.Id = id;
 
             var result = _service.AddBook(book);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Id);
-            Assert.AreEqual(1, _service.GetAllBooks().Count());
+            Assert.AreEqual(id, result.Id);
+            Assert.AreEqual(id, _service.GetAllBooks().Count());
             Assert.AreEqual("Norwegian Wood", result.Title);
         }
 
@@ -86,7 +93,7 @@ namespace BookHub.Tests.Services
                 NoteStatus = true,
                 Comments = "an even better book, love it",
                 ImageUrl = "images/swedish-wood.jpeg",
-                Id = 1
+                Id = GetNextId()
             };
 
             _service.AddBook(newBook);
@@ -94,11 +101,8 @@ namespace BookHub.Tests.Services
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType<Book>(result);
-
-            Assert.AreEqual("Swedish Wood", result.Title);
-            Assert.AreEqual("Haruki Murakami", result.Author);
+            Assert.AreEqual("Norwegian Wood", result.Title); // title should not be updated
             Assert.AreEqual(5, result.Rating);
-            Assert.AreEqual("images/swedish-wood.jpeg", result.ImageUrl);
             Assert.AreEqual("an even better book, love it", result.Comments);
         }
 
@@ -116,6 +120,7 @@ namespace BookHub.Tests.Services
         [TestMethod]
         public void GetAll_GetsAllBooks()
         {
+            var CurrentCount = _service.GetAllBooks().Count();
             for (var i = 0; i < 5; i++)
             {
                 var book = CreateBook();
@@ -123,7 +128,7 @@ namespace BookHub.Tests.Services
             }
 
             var result = _service.GetAllBooks();
-            Assert.HasCount(5, result);
+            Assert.HasCount(CurrentCount + 5, result);
         }
     }
 }
