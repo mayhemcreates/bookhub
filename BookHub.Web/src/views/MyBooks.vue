@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import BooksToolbar from '@/components/BooksToolbar.vue'
+import BookList from '@/components/BookList.vue'
+
 </script>
 <template>
   <div class="page__heading">
