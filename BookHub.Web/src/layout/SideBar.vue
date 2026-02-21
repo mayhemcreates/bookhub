@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import { router } from '@/router/index'
+import { router, type CustomRouteRecordRaw } from '@/router'
+const routes = router.options.routes as CustomRouteRecordRaw[]
 
 </script>
 <template>
@@ -15,9 +16,10 @@ import { router } from '@/router/index'
     </header>
     <nav class="nav">
       <ul>
-        <li v-for="route in router.options.routes" :key="route.path">
+        <li v-for="route in routes" :key="route.path">
           <RouterLink :to="route.path" active-class="nav__item--active">
             <div class="nav__item">
+              <component :is="route.icon" class="nav__icon" />
               {{ route.name }}
             </div>
           </RouterLink>
@@ -25,12 +27,12 @@ import { router } from '@/router/index'
       </ul>
     </nav>
     <div class="user-info">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="user-info__avatar">
-        <path
-          d="M399 384.2C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2 35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0 256 256 0 1 1 -512 0zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z"
-        />
-      </svg>
       <div class="user-info__wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="user-info__avatar">
+          <path
+            d="M399 384.2C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2 35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0 256 256 0 1 1 -512 0zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z"
+          />
+        </svg>
         <div class="user-info__details">
           <p class="user-info__name">Book Lover</p>
           <a href="" class="user-info__status">Reader</a>
@@ -65,7 +67,7 @@ import { router } from '@/router/index'
 .nav {
   flex-grow: 1;
   margin-top: 20px;
-
+  
   &__item {
     padding: 20px 0 20px 40px;
     display: flex;
