@@ -1,4 +1,5 @@
 using BookHub.Api.Services;
+using BookHub.Api.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
