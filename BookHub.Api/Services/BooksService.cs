@@ -35,12 +35,9 @@ namespace BookHub.Api.Services
         {
             var book = GetBook(newBook.Id);
             if (book == null) return null;
-            book.Author = newBook.Author;
-            book.Title = newBook.Title;
-            book.ISBN = newBook.ISBN;
-            book.NoteStatus = newBook.NoteStatus;
+
+            // only update properties that are editable on client side
             book.Comments = newBook.Comments;
-            book.ImageUrl = newBook.ImageUrl;
             book.Rating = newBook.Rating;
             return book;
         }
