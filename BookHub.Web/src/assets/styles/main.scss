@@ -9,6 +9,8 @@
 body {
   margin: 0;
   position: relative;
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 ul {
@@ -41,7 +43,7 @@ button {
 input,
 select {
   background-color: white;
-  border: 1px solid var(--color-grey-2);
+  border: 1px solid var(--color-grey-3);
   border-radius: 4px;
   padding: 16px;
 }

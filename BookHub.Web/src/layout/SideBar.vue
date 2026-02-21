@@ -51,6 +51,7 @@ const routes = router.options.routes as CustomRouteRecordRaw[]
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: sticky;
 }
 
 .header {

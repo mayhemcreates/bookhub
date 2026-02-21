@@ -6,7 +6,7 @@ import TopBar from './TopBar.vue'
 <template>
   <div class="layout">
     <SideBar />
-    <div>
+    <div class="content-wrapper">
       <TopBar />
       <main class="main-section">
         <section class="container">
@@ -23,6 +23,7 @@ import TopBar from './TopBar.vue'
   display: grid;
   grid-template-columns: 400px 1fr;
   height: 100vh;
+  overflow: hidden;
 
   @include mq($until: $breakpoint-lg) {
     display: flex;
@@ -30,11 +31,19 @@ import TopBar from './TopBar.vue'
   }
 }
 
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
 .main-section {
   padding: 20px;
   background-color: var(--color-grey-1);
-  height: calc(100vh - 96px);
+  flex: 1;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .container {
