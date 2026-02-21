@@ -8,16 +8,16 @@ namespace BookHub.Api.Models
     {
         [Required]
         [StringLength(100)]
-        public string Title { get; set; }
+        public string Title { get; init; }
 
         [Required]
         [StringLength(100)]
-        public string Author { get; set; }
+        public string Author { get; init; }
 
         [Required]
         [StringLength(13)]
         [RegularExpression(@"^\d{10}(\d{3})?$", ErrorMessage = "Isbn must be 10 or 13 digits")]
-        public string ISBN { get; set; }
+        public string ISBN { get; init; }
 
         [Required]
         [Range(1, 5)]
@@ -32,7 +32,7 @@ namespace BookHub.Api.Models
         public string Comments { get; set; }
 
         [Required]
-        public string ImageUrl { get; set; }
+        public string ImageUrl { get; init; }
 
         [Required]
         public int Id { get; set; }
