@@ -6,6 +6,7 @@ $color-grey-1: #f8fafc;
 $color-grey-2: #d1d5db;
 $color-red: #ff3f56;
 $color-black: #121211;
+$linear-gradient: linear-gradient(284deg, rgba(116, 79, 168, 1) 0%, rgba(104, 118, 223, 1) 100%);
 
 $breakpoint-xs: 0;
 $breakpoint-sm: 640px;
@@ -24,4 +25,5 @@ $breakpoint-xxxl: 1450px;
   --color-grey-2: #{$color-grey-2};
   --color-red: #{$color-red};
   --color-black: #{$color-black};
+  --linear-gradient: #{$linear-gradient};
 }

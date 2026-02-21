@@ -45,3 +45,17 @@ select {
   border-radius: 4px;
   padding: 16px;
 }
+
+.cta {
+  background: var(--linear-gradient);
+  color: var(--color-white);
+  width: 160px;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+
+  span {
+    margin-right: 8px;
+  }
+}
