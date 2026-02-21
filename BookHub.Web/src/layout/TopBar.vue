@@ -21,13 +21,13 @@ const toggleSearch = () => {
     </div>
     <div class="topbar__actions">
       <div class="alerts">
-        <component :is="IconAlerts" />
+        <IconAlerts />
 
         <span class="alerts__count">3</span>
       </div>
       <div class="search">
         <button @click="toggleSearch()">
-          <component :is="IconSearch" />
+          <IconSearch />
         </button>
         <div class="search__input" v-if="showSearch">
           <label for="search" class="sr-only">Search</label>
@@ -100,5 +100,9 @@ const toggleSearch = () => {
   cursor: pointer;
   display: flex;
   align-items: center;
+
+  svg {
+    stroke: var(--color-grey-4);
+  }
 }
 </style>
