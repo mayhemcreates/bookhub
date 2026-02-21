@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="BookHub.Api/BookHub.Api.csproj" />
+  <Project Path="BookHub.Tests/BookHub.Tests.csproj" />
+</Solution>
