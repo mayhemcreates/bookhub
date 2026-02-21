@@ -3,6 +3,8 @@ $color-mustard: #fbbf24;
 $color-blue-1: #457aee;
 $color-blue-2: #2563eb;
 $color-grey-1: #f8fafc;
+$color-red: #ff3f56;
+$color-black: #121211;
 
 $breakpoint-xs: 0;
 $breakpoint-sm: 640px;
@@ -18,4 +20,6 @@ $breakpoint-xxxl: 1450px;
   --color-mustard: #{$color-mustard};
   --color-blue-2: #{$color-blue-2};
   --color-grey-1: #{$color-grey-1};
+  --color-red: #{$color-red};
+  --color-black: #{$color-black};
 }
