@@ -59,7 +59,7 @@ namespace BookHub.Api.Services
             {
                 throw new ValidationException("Comments are required when a rating is provided.");
             }
-            
+
             book.NoteStatus = book.Rating != null;
             book.Id = _nextId++;
             _books.Add(book);
@@ -117,9 +117,7 @@ namespace BookHub.Api.Services
                 Title = "To Kill a Mockingbird",
                 Author = "Harper Lee",
                 ISBN = "978-0061120084",
-                Rating = 3,
                 NoteStatus = true,
-                Comments = "A powerful story about racial injustice.",
                 ImageUrl = "https://example.com/to-kill-a-mockingbird.jpg"
             });
             AddBook(new Book
