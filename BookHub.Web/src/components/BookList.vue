@@ -8,6 +8,7 @@ const bookStore = useBookStore()
 const currentPage = ref(1)
 const books = ref<Book[]>([])
 const cardsPerPage = 5
+const isBusy = ref(false)
 
 const emit = defineEmits<{
   openModal: [action: ModalAction, book?: Book]
@@ -18,18 +19,22 @@ const handleOpenModal = (action: ModalAction, book?: Book) => {
 }
 
 onBeforeMount(async () => {
+  isBusy.value = true
   if (bookStore.books.length > 0) {
     books.value = bookStore.books
+    isBusy.value = false
     return
   }
   books.value = await bookStore.fetchBooks()
+  isBusy.value = false
 })
-
 
 watch(
   () => bookStore.books,
   (newBooks) => {
+    isBusy.value = true
     books.value = newBooks
+    isBusy.value = false
   },
   { deep: true },
 )
@@ -62,46 +67,46 @@ const goToPage = (page: number) => {
 </script>
 
 <template>
-  <!-- handle empty state -->
-  <div v-if="books.length === 0" class="book__list--empty">
-    No books available.
-    <button class="cta"><span>+</span>Add Book</button>
-  </div>
+  <div aria-live="assertive" :aria-busy="isBusy">
+    <!-- handle empty state -->
+    <div v-if="books.length === 0" class="book__list--empty">
+      No books available.
+      <button class="cta"><span>+</span>Add Book</button>
+    </div>
 
-  <div v-else class="book__count">
-    <p>{{ paginatedBooks.length }} of {{ bookStore.books.length }} books available.</p>
-  </div>
+    <div v-else class="book__count">
+      <p>{{ paginatedBooks.length }} of {{ bookStore.books.length }} books available.</p>
+    </div>
 
-  <ul class="book__list" ref="bookListRef">
-    <li v-for="book in paginatedBooks" :key="book.id">
-      <BookCard :book="book" @open-modal="handleOpenModal" />
-    </li>
-  </ul>
+    <ul class="book__list" ref="bookListRef">
+      <li v-for="book in paginatedBooks" :key="book.id">
+        <BookCard :book="book" @open-modal="handleOpenModal" />
+      </li>
+    </ul>
 
-  <div v-if="totalPages > 1" class="pagination">
-    <button class="pagination__btn" :disabled="currentPage === 1" @click="prevPage">
-      Previous
-    </button>
+    <div v-if="totalPages > 1" class="pagination">
+      <button class="pagination__btn" :disabled="currentPage === 1" @click="prevPage">
+        Previous
+      </button>
 
-    <button
-      v-for="page in totalPages"
-      :key="page"
-      class="pagination__btn"
-      :class="{ 'pagination__btn--active': page === currentPage }"
-      @click="goToPage(page)"
-    >
-      {{ page }}
-    </button>
+      <button
+        v-for="page in totalPages"
+        :key="page"
+        class="pagination__btn"
+        :class="{ 'pagination__btn--active': page === currentPage }"
+        @click="goToPage(page)"
+      >
+        {{ page }}
+      </button>
 
-    <button class="pagination__btn" :disabled="currentPage === totalPages" @click="nextPage">
-      Next
-    </button>
+      <button class="pagination__btn" :disabled="currentPage === totalPages" @click="nextPage">
+        Next
+      </button>
+    </div>
   </div>
 </template>
 
-
 <style scoped lang="scss">
-
 .book {
   &__list {
     list-style: none;
