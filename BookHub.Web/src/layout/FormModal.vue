@@ -41,7 +41,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="modalRef" role="modal" class="modal" aria-modal="true">
+  <div ref="modalRef" role="dialog" class="modal" aria-modal="true">
     <button type="button" aria-label="close modal" class="modal__close-btn" @click="closeModal">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
         <path
