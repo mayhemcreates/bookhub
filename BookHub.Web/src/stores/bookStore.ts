@@ -6,9 +6,9 @@ export const useBookStore = defineStore('bookStore', () => {
   const books = ref<Book[]>([])
 
   const url = `/api/bookStore`
-  const fetchBooks = async (): Promise<Book[]> => {
+  const fetchBooks = async (sortBy: string = 'title'): Promise<Book[]> => {
     try {
-      const response = await fetch(`${url}`)
+      const response = await fetch(`${url}?sortBy=${sortBy}`)
       if (!response.ok) {
         throw new Error('Failed to fetch books')
       }

@@ -15,7 +15,15 @@ namespace BookHub.Api.Services
             SeedData();
         }
 
-        public List<Book> GetAllBooks() => _books;
+        public List<Book> GetAllBooks(string sortBy)
+        {
+            return sortBy.ToLower() switch
+            {
+                "title" => [.. _books.OrderBy(b => b.Title)],
+                "author" => [.. _books.OrderBy(b => b.Author)],
+                _ => _books
+            };
+        }
 
         public Book? GetBook(int id)
         {

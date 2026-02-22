@@ -28,9 +28,9 @@ namespace BookHub.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll(string sortBy = "title")
         {
-            var books = _service.GetAllBooks();
+            var books = _service.GetAllBooks(sortBy);
             return Ok(books);
         }
 

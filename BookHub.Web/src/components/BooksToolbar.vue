@@ -2,12 +2,28 @@
 import IconGrid from '@/assets/icons/IconGrid.vue'
 import IconList from '@/assets/icons/IconList.vue'
 import IconSearch from '@/assets/icons/IconSearch.vue'
-// TODO implement search
+import { useBookStore } from '@/stores/bookStore'
+
+let debounceTimer: ReturnType<typeof setTimeout> | null = null
+const bookStore = useBookStore()
+
 const updateSearch = (event: Event) => {
   const target = event.target as HTMLInputElement
   if (target) {
     const value = target.value
-    return value
+
+    // Debounce the search to avoid too many API calls while typing
+    if (debounceTimer) {
+      clearTimeout(debounceTimer)
+    }
+
+    debounceTimer = setTimeout(() => {
+      if (value.trim() === '') {
+        bookStore.fetchBooks()
+      } else {
+        bookStore.searchBooks(value)
+      }
+    }, 300)
   }
 }
 </script>
@@ -19,17 +35,20 @@ const updateSearch = (event: Event) => {
         <span class="sr-only">Search</span>
         <span class="search__placeholder">
           <IconSearch />
-          <span>Search by title or author</span>
         </span>
-        <input type="text" id="search" @input="updateSearch" />
+        <input
+          type="text"
+          id="search"
+          placeholder="Search by title or author"
+          @input="updateSearch"
+        />
       </label>
     </div>
     <div class="sort">
       <label for="sort" class="sr-only">Sort</label>
-      <select name="sort" id="sort">
+      <select name="sort" id="sort" @change="bookStore.fetchBooks(($event.target as HTMLSelectElement).value)">
         <option value="title">Sort by Title</option>
         <option value="author">Sort by Author</option>
-        <option value="rating">Sort by Rating</option>
       </select>
     </div>
     <div class="view">
@@ -60,6 +79,11 @@ const updateSearch = (event: Event) => {
 .search {
   flex-grow: 1;
 
+  input {
+    padding-left: 50px;
+    font-size: 1rem;
+  }
+
   &__placeholder {
     position: absolute;
     top: 50%;
@@ -79,7 +103,6 @@ const updateSearch = (event: Event) => {
       margin-right: 8px;
       stroke: var(--color-grey-3);
     }
-
   }
 
   label {
