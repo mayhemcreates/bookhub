@@ -19,9 +19,11 @@
 
 body {
   margin: 0;
-  position: relative;
-  max-height: 100vh;
-  overflow: hidden;
+
+  @include mq($from: $breakpoint-lg) {
+    max-height: 100vh;
+    overflow: hidden;
+  }
 }
 
 ul {
@@ -70,6 +72,10 @@ option {
   padding: 12px;
   font-size: 16px;
   font-weight: 600;
+
+  &--align-left-sm {
+    align-self: flex-end;
+  }
 
   span {
     margin-right: 8px;

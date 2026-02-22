@@ -82,11 +82,20 @@ const updateSearch = (event: Event) => {
 .filter {
   display: flex;
   gap: 20px;
+
+  @include mq($until: $breakpoint-lg) {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
 }
 
 .search {
   flex-grow: 1;
 
+  @include mq($until: $breakpoint-sm) {
+    width: 100%;
+  }
+  
   input {
     padding-left: 50px;
     font-size: 1rem;
@@ -120,6 +129,16 @@ const updateSearch = (event: Event) => {
   input {
     width: 100%;
     box-sizing: border-box;
+  }
+}
+
+.sort {
+  @include mq($until: $breakpoint-lg) {
+    flex-grow: 1;
+
+    select {
+      width: 100%;
+    }
   }
 }
 .view {

@@ -2,7 +2,8 @@
 import { ref } from 'vue'
 import IconSearch from '@/assets/icons/IconSearch.vue'
 import IconAlerts from '@/assets/icons/IconAlerts.vue'
-
+import HamburgerButton from '@/components/HamburgerButton.vue'
+import { isMobile } from '@/composables/viewHelpers'
 const showSearch = ref(false)
 
 const toggleSearch = () => {
@@ -12,11 +13,7 @@ const toggleSearch = () => {
 <template>
   <section class="topbar">
     <div class="topbar__nav">
-      <button type="button" class="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <HamburgerButton v-if="!isMobile()" />
       <div>Dashboard</div>
     </div>
     <div class="topbar__actions">
@@ -48,6 +45,10 @@ const toggleSearch = () => {
   align-items: center;
   justify-content: space-between;
 
+  @include mq($until: $breakpoint-lg) {
+    height: 50px;
+  }
+
   &__nav {
     display: flex;
     align-items: center;
@@ -58,26 +59,6 @@ const toggleSearch = () => {
     display: flex;
     align-items: center;
     gap: 20px;
-  }
-}
-
-.hamburger {
-  height: 50px;
-  width: 50px;
-  background: none;
-  border: none;
-  cursor: pointer;
-
-  span {
-    display: block;
-    width: 25px;
-    height: 3px;
-    background-color: var(--color-black);
-    border-radius: 2px;
-
-    &:not(:last-child) {
-      margin-bottom: 5px;
-    }
   }
 }
 

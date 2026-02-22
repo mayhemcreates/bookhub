@@ -33,9 +33,7 @@ const closeModal = () => {
             :book="selectedBook"
             @close="closeModal"
           />
-
         </section>
-
       </main>
     </div>
   </div>
@@ -45,20 +43,35 @@ const closeModal = () => {
 .layout {
   display: grid;
   grid-template-columns: 400px 1fr;
-  height: 100vh;
-  overflow: hidden;
+
+  @include mq($from: $breakpoint-lg) {
+    height: 100vh;
+    overflow: hidden;
+  }
 
   @include mq($until: $breakpoint-lg) {
     display: flex;
     flex-direction: column;
+  }
+
+    @include mq($from: $breakpoint-lg, $until: $breakpoint-xl) {
+    grid-template-columns: 300px 1fr;
   }
 }
 
 .content-wrapper {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
+
+  @include mq($until: $breakpoint-lg) {
+    position: relative;
+    top: 50px;
+  }
+
+  @include mq($from: $breakpoint-lg) {
+    height: 100vh;
+    overflow: hidden;
+  }
 }
 
 .main-section {
@@ -67,6 +80,10 @@ const closeModal = () => {
   flex: 1;
   box-sizing: border-box;
   overflow-y: auto;
+
+  @include mq($until: $breakpoint-lg) {
+    overflow-y: initial;
+  }
 }
 
 .container {

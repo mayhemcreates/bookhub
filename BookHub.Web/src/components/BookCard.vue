@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ModalAction, type Book } from '@/types/types'
+import { ModalAction, type Book } from '@/types/types'
 
 const props = defineProps({
   book: {
@@ -15,7 +15,6 @@ const emit = defineEmits<{
 const openModal = (action: ModalAction, book?: Book) => {
   emit('openModal', action, book)
 }
-
 </script>
 <template>
   <div class="card">
@@ -62,7 +61,7 @@ const openModal = (action: ModalAction, book?: Book) => {
       </div>
 
       <div class="card__actions">
-        <button class="card__button"  @click="openModal(ModalAction.EDIT, props.book)">
+        <button class="card__button" @click="openModal(ModalAction.EDIT, props.book)">
           <span class="sr-only">Edit</span>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
             <path
@@ -100,11 +99,11 @@ const openModal = (action: ModalAction, book?: Book) => {
   display: flex;
   align-items: stretch;
   justify-content: space-between;
+  position: relative;
 
-  @include mq($until: $breakpoint-lg) {
-   display: grid;
-   grid-template-columns: 1fr 1fr;
-   grid-template-row: 1fr 1fr;
+  @include mq($until: $breakpoint-sm) {
+    flex-direction: column;
+    gap: 12px;
   }
 
   &__author {
@@ -112,6 +111,7 @@ const openModal = (action: ModalAction, book?: Book) => {
     color: var(--color-grey-4);
     margin-top: 8px;
   }
+
   &__title {
     font-size: 1.25rem;
     color: var(--color-grey-4);
@@ -126,8 +126,17 @@ const openModal = (action: ModalAction, book?: Book) => {
     display: flex;
     gap: 20px;
 
+    @include mq($until: $breakpoint-sm) {
+      flex-direction: column;
+      gap: 12px;
+    }
+
     &--mt {
       margin-top: 16px;
+
+      @include mq($until: $breakpoint-sm) {
+        flex-direction: row;
+      }
     }
   }
 
@@ -139,9 +148,19 @@ const openModal = (action: ModalAction, book?: Book) => {
     justify-content: center;
     align-items: center;
 
+    @include mq($until: $breakpoint-sm) {
+      width: 100%;
+      height: 150px;
+    }
+
     svg {
       width: 40px;
       height: 40px;
+
+      @include mq($until: $breakpoint-sm) {
+        width: 150px;
+        height: 150px;
+      }
     }
   }
 
@@ -163,8 +182,13 @@ const openModal = (action: ModalAction, book?: Book) => {
     gap: 8px;
 
     @include mq($until: $breakpoint-lg) {
+      margin-top: 20px;
       flex-direction: column;
-      align-items: flex-end;
+      align-items: flex-start;
+    }
+
+    @include mq($until: $breakpoint-sm) {
+      margin-top: 0;
     }
   }
 
@@ -187,6 +211,10 @@ const openModal = (action: ModalAction, book?: Book) => {
   &__actions {
     display: flex;
     gap: 8px;
+
+    @include mq($until: $breakpoint-sm) {
+      align-self: flex-end;
+    }
   }
 
   &__button {

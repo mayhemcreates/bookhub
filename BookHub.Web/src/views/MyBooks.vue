@@ -18,12 +18,12 @@ const handleAddBook = () => {
 </script>
 <template>
   <div class="page__heading">
-    <div>
+    <div class="page__title-wrapper">
       <h1 class="page__title">My Books</h1>
       <p class="page__subtitle">Manage your book collection and discover new reads.</p>
     </div>
 
-    <button class="cta" @click="handleAddBook"><span>+</span>Add Book</button>
+    <button class="cta cta--align-left-sm" @click="handleAddBook"><span>+</span>Add Book</button>
   </div>
   <BooksToolbar />
   <BookList @open-modal="handleOpenModal" />
@@ -35,12 +35,22 @@ const handleAddBook = () => {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+
+    @include mq($until: $breakpoint-md) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
   }
 
   &__title {
     font-size: 2rem;
     color: var(--color-grey-4);
     margin-bottom: 20px;
+
+    &-wrapper {
+      flex-grow: 1;
+    }
   }
 
   &__subtitle {
