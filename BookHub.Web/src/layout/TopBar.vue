@@ -3,9 +3,11 @@ import { ref } from 'vue'
 import IconSearch from '@/assets/icons/IconSearch.vue'
 import IconAlerts from '@/assets/icons/IconAlerts.vue'
 import HamburgerButton from '@/components/HamburgerButton.vue'
-import { isMobile } from '@/composables/viewHelpers'
-const showSearch = ref(false)
+import { useViewHelper } from '@/composables/useViewHelper'
 
+
+const showSearch = ref(false)
+const { isMobile } = useViewHelper()
 const toggleSearch = () => {
   showSearch.value = !showSearch.value
 }

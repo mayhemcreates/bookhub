@@ -3,10 +3,10 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { ModalAction, type Book } from '@/types/types'
 import BookForm from '@/components/BookForm.vue'
 import DeleteBook from '@/components/DeleteBook.vue'
-import { trapFocusHelper } from '@/composables/trapFocusHelper';
+import { useAccessibilityHelper } from '@/composables/useAccessibilityHelper';
 
 const modalRef = ref<HTMLElement | null>(null)
-
+const { trapFocusHelper } = useAccessibilityHelper();
 const props = defineProps<{
   action: ModalAction
   book: Book | null

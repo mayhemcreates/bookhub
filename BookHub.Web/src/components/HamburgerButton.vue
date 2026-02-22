@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import MainNav from './MainNav.vue';
-import { isMobile } from '@/composables/viewHelpers'
+import { useViewHelper } from '@/composables/useViewHelper'
 
 const navIsOpen = ref(false)
+const { isMobile } = useViewHelper();
 
 const openNav = () => {
   if(!isMobile()) return // hamburger not implemented for desktop as duplicates sidebar

@@ -3,8 +3,9 @@ import iconBookhub from '@/assets/icons/IconBookhub.vue'
 import HamburgerButton from '@/components/HamburgerButton.vue'
 import MainNav from '@/components/MainNav.vue'
 import UserInfo from '@/components/UserInfo.vue'
-import { isMobile } from '@/composables/viewHelpers'
+import { useViewHelper } from '@/composables/useViewHelper'
 
+const { isMobile } = useViewHelper()  
 </script>
 
 <template>
