@@ -68,10 +68,15 @@ const goToPage = (page: number) => {
 
 <template>
   <div aria-live="assertive" :aria-busy="isBusy">
+
+    <div v-if="bookStore.hasFetchError" class="book__list--empty">
+      Failed to load books. Please try again later.
+    </div>
+
     <!-- handle empty state -->
-    <div v-if="books.length === 0" class="book__list--empty">
+    <div v-else-if="books.length === 0" class="book__list--empty">
       No books available.
-      <button class="cta"><span>+</span>Add Book</button>
+      <button class="cta" @click="handleOpenModal(ModalAction.ADD)"><span>+</span>Add Book</button>
     </div>
 
     <div v-else class="book__count">

@@ -1,6 +1,6 @@
-# BookHub 
+# BookHub
 
-A book repository where users can perform basic CRUD actions, as well as search and filter books. Consists of a .net API back-end, and Vue.js front-end. 
+A book repository where users can perform basic CRUD actions, as well as search and filter books. Consists of a .net API back-end, and Vue.js front-end.
 
 ---
 
@@ -17,10 +17,10 @@ Run the API server -> `dotnet run`
 
 ---
 
-## Testing 
+## Testing
 
-Bookhub.Tests -> run `dotnet test`
-Vitest (from BookHub.Web) -> run `npm run test:unit`
+- Bookhub.Tests -> run `dotnet test`
+- Vitest (from BookHub.Web) -> run `npm run test:unit`
 
 ---
 

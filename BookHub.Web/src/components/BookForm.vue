@@ -97,33 +97,33 @@ const handleSubmit = async () => {
       maxlength="100"
       @focus="clearFieldError('title')"
     />
+    <div class="form__row">
+      <label for="author" class="sr-only">Author</label>
+      <input
+        type="text"
+        id="author"
+        name="author"
+        placeholder="Author"
+        :class="{ 'input-error': fieldIsValid.author }"
+        v-model="author"
+        :readonly="isEditMode"
+        maxlength="100"
+        @focus="clearFieldError('author')"
+      />
 
-    <label for="author" class="sr-only">Author</label>
-    <input
-      type="text"
-      id="author"
-      name="author"
-      placeholder="Author"
-      :class="{ 'input-error': fieldIsValid.author }"
-      v-model="author"
-      :readonly="isEditMode"
-      maxlength="100"
-      @focus="clearFieldError('author')"
-    />
-
-    <label for="isbn" class="sr-only">ISBN</label>
-    <input
-      type="text"
-      id="isbn"
-      name="isbn"
-      placeholder="ISBN"
-      v-model="isbn"
-      :readonly="isEditMode"
-      :class="{ 'input-error': fieldIsValid.isbn }"
-      maxlength="100"
-      @focus="clearFieldError('isbn')"
-    />
-
+      <label for="isbn" class="sr-only">ISBN</label>
+      <input
+        type="text"
+        id="isbn"
+        name="isbn"
+        placeholder="ISBN"
+        v-model="isbn"
+        :readonly="isEditMode"
+        :class="{ 'input-error': fieldIsValid.isbn }"
+        maxlength="100"
+        @focus="clearFieldError('isbn')"
+      />
+    </div>
     <fieldset class="rating__fieldset" :class="{ 'input-error': fieldIsValid.rating }">
       <legend class="sr-only">Rating (out of 5 stars)</legend>
       <div class="rating__input" role="radiogroup" aria-label="Book rating">
@@ -135,7 +135,10 @@ const handleSubmit = async () => {
           :aria-label="`Rate ${index} out of 5 stars`"
           :aria-pressed="rating >= index"
           @click="setRating(index)"
-          @focus="clearFieldError('rating'); clearFieldError('comments')"
+          @focus="
+            clearFieldError('rating');
+            clearFieldError('comments')
+          "
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
             <path
@@ -155,12 +158,23 @@ const handleSubmit = async () => {
       v-model="comments"
       rows="5"
       :class="{ 'input-error': fieldIsValid.comments || fieldIsValid.rating }"
-      @focus="clearFieldError('comments'); clearFieldError('rating')"
+      @focus="
+        clearFieldError('comments');
+        clearFieldError('rating')
+      "
     ></textarea>
 
     <button type="submit" class="cta" @click.prevent="handleSubmit">
       {{ submitButtonText }}
     </button>
+
+    <div v-if="bookStore.hasPostError" class="error-list" role="alert">
+      {{
+        isEditMode
+          ? 'Failed to update book. Please try again.'
+          : 'Failed to add book. Please try again.'
+      }}
+    </div>
   </form>
 </template>
 <style scoped lang="scss">
@@ -168,6 +182,15 @@ const handleSubmit = async () => {
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  &__row {
+    display: flex;
+    gap: 16px;
+
+    input {
+      width: 100%;
+    }
+  }
 }
 
 .error-list {

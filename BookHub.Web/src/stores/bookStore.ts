@@ -4,9 +4,12 @@ import type { Book } from '@/types/types'
 
 export const useBookStore = defineStore('bookStore', () => {
   const books = ref<Book[]>([])
+  const hasFetchError = ref(false)
+  const hasPostError = ref(false)
 
   const url = `/api/bookStore`
   const fetchBooks = async (sortBy: string = 'title'): Promise<Book[]> => {
+    hasFetchError.value = false
     try {
       const response = await fetch(`${url}?sortBy=${sortBy}`)
       if (!response.ok) {
@@ -17,11 +20,14 @@ export const useBookStore = defineStore('bookStore', () => {
       return books.value
     } catch (error) {
       console.error(error)
+      hasFetchError.value = true
       return []
     }
   }
 
   const editBook = async (updatedBook: Book): Promise<Book | null> => {
+    hasPostError.value = false
+
     try {
       const response = await fetch(`${url}/edit/${updatedBook.id}`, {
         method: 'PUT',
@@ -43,11 +49,13 @@ export const useBookStore = defineStore('bookStore', () => {
       return editedBook
     } catch (error) {
       console.error(error)
+      hasPostError.value = true
       return null
     }
   }
 
   const addBook = async (newBook: Omit<Book, 'id'>): Promise<Book | null> => {
+    hasPostError.value = false
     try {
       const response = await fetch(`${url}/add`, {
         method: 'POST',
@@ -66,11 +74,13 @@ export const useBookStore = defineStore('bookStore', () => {
       return addedBook
     } catch (error) {
       console.error(error)
+      hasPostError.value = true
       return null
     }
   }
 
   const deleteBook = async (id: number): Promise<boolean> => {
+    hasPostError.value = false
     try {
       const response = await fetch(`${url}/delete/${id}`, {
         method: 'DELETE',
@@ -84,6 +94,7 @@ export const useBookStore = defineStore('bookStore', () => {
       return true
     } catch (error) {
       console.error(error)
+      hasPostError.value = true
       return false
     }
   }
@@ -99,9 +110,19 @@ export const useBookStore = defineStore('bookStore', () => {
       return books.value
     } catch (error) {
       console.error(error)
+      hasFetchError.value = true
       return []
     }
   }
 
-  return { books, fetchBooks, editBook, addBook, deleteBook, searchBooks }
+  return {
+    books,
+    fetchBooks,
+    editBook,
+    addBook,
+    deleteBook,
+    searchBooks,
+    hasFetchError,
+    hasPostError,
+  }
 })

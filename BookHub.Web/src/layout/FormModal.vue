@@ -68,7 +68,7 @@ onUnmounted(() => {
   top: 50%;
   transform: translate(-50%, -50%);
   height: auto;
-  width: 400px;
+  width: 600px;
   background: var(--color-white);
   z-index: 20;
   border-radius: 8px;
