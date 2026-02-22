@@ -3,8 +3,12 @@ import IconGrid from '@/assets/icons/IconGrid.vue'
 import IconList from '@/assets/icons/IconList.vue'
 import IconSearch from '@/assets/icons/IconSearch.vue'
 import { useBookStore } from '@/stores/bookStore'
+import { ViewOption } from '@/types/types'
+import { ref } from 'vue'
 
 let debounceTimer: ReturnType<typeof setTimeout> | null = null
+const selectedView = ref<ViewOption>(ViewOption.LIST) // default to list view
+
 const bookStore = useBookStore()
 
 const updateSearch = (event: Event) => {
@@ -46,21 +50,25 @@ const updateSearch = (event: Event) => {
     </div>
     <div class="sort">
       <label for="sort" class="sr-only">Sort</label>
-      <select name="sort" id="sort" @change="bookStore.fetchBooks(($event.target as HTMLSelectElement).value)">
+      <select
+        name="sort"
+        id="sort"
+        @change="bookStore.fetchBooks(($event.target as HTMLSelectElement).value)"
+      >
         <option value="title">Sort by Title</option>
         <option value="author">Sort by Author</option>
       </select>
     </div>
     <div class="view">
       <div class="view__option">
-        <input type="radio" id="grid" name="view" value="grid" />
+        <input type="radio" id="grid" name="view" :value="ViewOption.GRID" v-model="selectedView" />
         <label for="grid" class="view__icon view__icon--left">
           <span class="sr-only">Grid</span>
           <IconGrid />
         </label>
       </div>
       <div class="view__option">
-        <input type="radio" id="list" name="view" value="list" />
+        <input type="radio" id="list" name="view" :value="ViewOption.LIST" v-model="selectedView" />
         <label for="list" class="view__icon view__icon--right">
           <span class="sr-only">List</span>
           <IconList />

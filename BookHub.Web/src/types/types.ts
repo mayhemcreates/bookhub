@@ -14,3 +14,8 @@ export enum ModalAction {
   EDIT = 'edit',
   DELETE = 'delete',
 }
+
+export enum ViewOption {
+  GRID = 'grid',
+  LIST = 'list',
+}
