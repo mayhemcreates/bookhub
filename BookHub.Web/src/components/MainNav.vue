@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import { router, type CustomRouteRecordRaw } from '@/router'
+import { computed } from 'vue'
+
 const routes = router.options.routes as CustomRouteRecordRaw[]
+const navRoutes = computed(() => routes.filter(route => route.showInNav))
 
 const emit = defineEmits(['closeNav'])
 
@@ -13,7 +16,7 @@ const handleNavClick = () => {
 <template>
   <nav class="nav">
     <ul class="nav__list">
-      <li v-for="route in routes" :key="route.path">
+      <li v-for="route in navRoutes" :key="route.path">
         <RouterLink :to="route.path" active-class="nav__item--active" @click="handleNavClick">
           <div class="nav__item">
             <component :is="route.icon" class="nav__icon" />

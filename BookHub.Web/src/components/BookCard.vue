@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ModalAction, type Book } from '@/types/types'
+import BookIcon from './BookIcon.vue'
 
 const props = defineProps({
   book: {
@@ -19,14 +20,7 @@ const openModal = (action: ModalAction, book?: Book) => {
 <template>
   <div class="card">
     <div class="card__detail">
-      <div class="card__icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-          <path
-            d="M480 576L192 576C139 576 96 533 96 480L96 160C96 107 139 64 192 64L496 64C522.5 64 544 85.5 544 112L544 400C544 420.9 530.6 438.7 512 445.3L512 512C529.7 512 544 526.3 544 544C544 561.7 529.7 576 512 576L480 576zM192 448C174.3 448 160 462.3 160 480C160 497.7 174.3 512 192 512L448 512L448 448L192 448zM224 216C224 229.3 234.7 240 248 240L424 240C437.3 240 448 229.3 448 216C448 202.7 437.3 192 424 192L248 192C234.7 192 224 202.7 224 216zM248 288C234.7 288 224 298.7 224 312C224 325.3 234.7 336 248 336L424 336C437.3 336 448 325.3 448 312C448 298.7 437.3 288 424 288L248 288z"
-            fill="white"
-          />
-        </svg>
-      </div>
+      <BookIcon class="card__icon"/>
       <div>
         <h2 class="card__title">{{ props.book.title }}</h2>
         <p class="card__author">{{ props.book.author }}</p>
@@ -69,14 +63,14 @@ const openModal = (action: ModalAction, book?: Book) => {
             />
           </svg>
         </button>
-        <button class="card__button">
+        <RouterLink class="card__button" :to="{ name: 'book', params: { id: props.book.id } }">
           <span class="sr-only">View</span>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
             <path
               d="M320 96C239.2 96 174.5 132.8 127.4 176.6C80.6 220.1 49.3 272 34.4 307.7C31.1 315.6 31.1 324.4 34.4 332.3C49.3 368 80.6 420 127.4 463.4C174.5 507.1 239.2 544 320 544C400.8 544 465.5 507.2 512.6 463.4C559.4 419.9 590.7 368 605.6 332.3C608.9 324.4 608.9 315.6 605.6 307.7C590.7 272 559.4 220 512.6 176.6C465.5 132.9 400.8 96 320 96zM176 320C176 240.5 240.5 176 320 176C399.5 176 464 240.5 464 320C464 399.5 399.5 464 320 464C240.5 464 176 399.5 176 320zM320 256C320 291.3 291.3 320 256 320C244.5 320 233.7 317 224.3 311.6C223.3 322.5 224.2 333.7 227.2 344.8C240.9 396 293.6 426.4 344.8 412.7C396 399 426.4 346.3 412.7 295.1C400.5 249.4 357.2 220.3 311.6 224.3C316.9 233.6 320 244.4 320 256z"
             />
           </svg>
-        </button>
+        </RouterLink>
         <button class="card__button" @click="openModal(ModalAction.DELETE, props.book)">
           <span class="sr-only">Delete</span>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
@@ -151,16 +145,6 @@ const openModal = (action: ModalAction, book?: Book) => {
     @include mq($until: $breakpoint-sm) {
       width: 100%;
       height: 150px;
-    }
-
-    svg {
-      width: 40px;
-      height: 40px;
-
-      @include mq($until: $breakpoint-sm) {
-        width: 150px;
-        height: 150px;
-      }
     }
   }
 
