@@ -9,6 +9,7 @@ $color-grey-4: #21211e;
 $color-green: #059669;
 $color-red: #ff3f56;
 $color-black: #121211;
+$focus-ring: #ffff00;
 $linear-gradient: linear-gradient(284deg, rgba(116, 79, 168, 1) 0%, rgba(104, 118, 223, 1) 100%);
 
 $breakpoint-xs: 0;
@@ -30,6 +31,7 @@ $breakpoint-xxxl: 1450px;
   --color-grey-4: #{$color-grey-4};
   --color-green: #{$color-green};
   --color-red: #{$color-red};
+  --focus-ring: #{$focus-ring};
   --color-black: #{$color-black};
   --linear-gradient: #{$linear-gradient};
 }

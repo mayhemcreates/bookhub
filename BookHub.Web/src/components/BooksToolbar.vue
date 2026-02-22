@@ -155,6 +155,11 @@ const updateSearch = (event: Event) => {
         fill: var(--color-white);
       }
     }
+
+    input:focus-visible + .view__icon {
+      outline: 2px solid var(--focus-ring);
+      outline-offset: 2px;
+    }
   }
 
   &__icon {
@@ -183,5 +188,15 @@ const updateSearch = (event: Event) => {
       border-bottom-right-radius: 10px;
     }
   }
+}
+</style>
+
+<!-- Global styles for focus state of view options when using keyboard navigation -->
+<style lang="scss">
+body.js-user-is-tabbing .view__option input:focus + .view__icon {
+  outline: 4px solid var(--focus-ring);
+  position: relative;
+  z-index: 999;
+  border-radius: 4px;
 }
 </style>

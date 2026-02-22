@@ -4,6 +4,17 @@
   font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+
+  *:focus {
+    outline: none;
+  }
+
+  &.js-user-is-tabbing *:focus {
+    outline: 4px solid var(--focus-ring);
+    position: relative;
+    z-index: 999;
+    border-radius: 4px;
+  }
 }
 
 body {
@@ -42,11 +53,13 @@ button {
 }
 input,
 select,
-textarea {
+textarea,
+option {
   background-color: white;
   border: 1px solid var(--color-grey-3);
   border-radius: 4px;
   padding: 16px;
+  color: var(--color-grey-4);
 }
 
 .cta {
