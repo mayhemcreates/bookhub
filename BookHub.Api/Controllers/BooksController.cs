@@ -45,6 +45,13 @@ namespace BookHub.Api.Controllers
             return CreatedAtAction(nameof(Get), new { id = addedBook.Id }, addedBook);
         }
 
+        [HttpGet("search")]
+        public IActionResult Search([FromQuery] string query)
+        {
+            var books = _service.SearchBooks(query ?? string.Empty);
+            return Ok(books);
+        }
+
         [HttpPut("edit/{id}")]
         public IActionResult EditBook(int id, [FromBody] Book book)
         {

@@ -24,6 +24,20 @@ namespace BookHub.Api.Services
             return book;
         }
 
+        public List<Book> SearchBooks(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return _books;
+            }
+
+            var lowerQuery = query.ToLower();
+            return [.. _books.Where(b =>
+                b.Title.Contains(lowerQuery, StringComparison.CurrentCultureIgnoreCase) ||
+                b.Author.Contains(lowerQuery, StringComparison.CurrentCultureIgnoreCase)
+            )];
+        }
+
         public Book? AddBook(Book book)
         {
             book.Id = _nextId++;

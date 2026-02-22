@@ -88,5 +88,20 @@ export const useBookStore = defineStore('bookStore', () => {
     }
   }
 
-  return { books, fetchBooks, editBook, addBook, deleteBook }
+  const searchBooks = async (query: string): Promise<Book[]> => {
+    try {
+      const response = await fetch(`${url}/search?query=${encodeURIComponent(query)}`)
+      if (!response.ok) {
+        throw new Error('Failed to search books')
+      }
+
+      books.value = await response.json()
+      return books.value
+    } catch (error) {
+      console.error(error)
+      return []
+    }
+  }
+
+  return { books, fetchBooks, editBook, addBook, deleteBook, searchBooks }
 })
