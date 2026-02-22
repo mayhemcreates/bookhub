@@ -87,7 +87,11 @@ const closeModal = () => {
 }
 
 .container {
-  max-width: 1440px;
+  max-width: 720px;
   margin: 0 auto;
+
+  @include mq($from: $breakpoint-xxxl) {
+    max-width: 1200px;
+  }
 }
 </style>

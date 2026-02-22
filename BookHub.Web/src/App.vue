@@ -12,7 +12,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <AppLayout> </AppLayout>
+  <AppLayout />
 </template>
 
 <style scoped></style>

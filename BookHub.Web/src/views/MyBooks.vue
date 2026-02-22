@@ -28,35 +28,3 @@ const handleAddBook = () => {
   <BooksToolbar />
   <BookList @open-modal="handleOpenModal" />
 </template>
-<style scoped lang="scss">
-.page {
-  &__heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-
-    @include mq($until: $breakpoint-md) {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 16px;
-    }
-  }
-
-  &__title {
-    font-size: 2rem;
-    color: var(--color-grey-4);
-    margin-bottom: 20px;
-
-    &-wrapper {
-      flex-grow: 1;
-    }
-  }
-
-  &__subtitle {
-    font-size: 1rem;
-    color: var(--color-grey-4);
-    margin-bottom: 32px;
-  }
-}
-</style>
