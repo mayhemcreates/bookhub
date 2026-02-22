@@ -95,7 +95,7 @@ const updateSearch = (event: Event) => {
   @include mq($until: $breakpoint-sm) {
     width: 100%;
   }
-  
+
   input {
     padding-left: 50px;
     font-size: 1rem;
@@ -133,6 +133,9 @@ const updateSearch = (event: Event) => {
 }
 
 .sort {
+  select {
+    font-size: 1rem;
+  }
   @include mq($until: $breakpoint-lg) {
     flex-grow: 1;
 
@@ -146,7 +149,7 @@ const updateSearch = (event: Event) => {
   border-radius: 10px;
   background-color: var(--color-white);
   border: 1px solid var(--color-grey-3);
-  height: 48px;
+  height: 54px;
 
   &__option {
     cursor: pointer;
@@ -157,7 +160,7 @@ const updateSearch = (event: Event) => {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    width: 48px;
+    width: 54px;
 
     input {
       position: absolute;
