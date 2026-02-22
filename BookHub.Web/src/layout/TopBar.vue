@@ -25,7 +25,7 @@ const toggleSearch = () => {
         <span class="alerts__count">3</span>
       </div>
       <div class="search">
-        <button @click="toggleSearch()">
+        <button @click="toggleSearch()" aria-label="toggle search input">
           <IconSearch />
         </button>
         <div class="search__input" v-if="showSearch">

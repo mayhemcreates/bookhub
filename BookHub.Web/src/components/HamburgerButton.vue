@@ -21,7 +21,7 @@ watch(navIsOpen, (isOpen) => {
 </script>
 
 <template>
-  <button type="button" class="hamburger" @click="openNav()">
+  <button type="button" class="hamburger" @click="openNav()" aria-label="toggle navigation menu">
     <span class="hamburger__line" :class="{ 'hamburger__line--open': navIsOpen }"></span>
     <span class="hamburger__line" :class="{ 'hamburger__line--open': navIsOpen }"></span>
     <span class="hamburger__line" :class="{ 'hamburger__line--open': navIsOpen }"></span>
