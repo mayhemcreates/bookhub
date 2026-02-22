@@ -130,5 +130,66 @@ namespace BookHub.Tests.Services
             var result = _service.GetAllBooks();
             Assert.HasCount(CurrentCount + 5, result);
         }
+
+        [TestMethod]
+        public void GetAll_CountLessThan25()
+        {
+
+            var books = _service.GetAllBooks();
+            if (books.Count < 25)
+            {
+                for (var i = books.Count; i < 25; i++)
+                {
+                    var book = CreateBook();
+                    _service.AddBook(book);
+                }
+            }
+
+            var result = _service.GetAllBooks();
+            var maxCount = 25;
+            Assert.IsLessThanOrEqualTo(maxCount, result.Count);
+        }
+
+        [TestMethod]
+        public void AddBooks_DoesntExceed25()
+        {
+            var existingBooks = _service.GetAllBooks().ToList();
+            foreach (var book in existingBooks)
+            {
+                _service.DeleteBook(book.Id);
+            }
+
+            for (var i = 0; i < 25; i++)
+            {
+                var book = CreateBook();
+                _service.AddBook(book);
+            }
+
+            Assert.AreEqual(25, _service.GetAllBooks().Count);
+
+            // Try to add the 26th book - should throw InvalidOperationException
+            var newBook = CreateBook();
+            try
+            {
+                _service.AddBook(newBook);
+                Assert.Fail("Expected InvalidOperationException was not thrown");
+            }
+            catch (InvalidOperationException ex)
+            {
+                Assert.AreEqual("Cannot add more than 25 books.", ex.Message);
+            }
+        }
+
+        [TestMethod]
+        public void HasRating_CommentsRequired()
+        {
+            var book = CreateBook();
+            book.Rating = 4;
+            book.Comments = null;
+
+            var result = _service.UpdateBook(book);
+
+            Assert.IsNull(result);
+        }
     }
 }

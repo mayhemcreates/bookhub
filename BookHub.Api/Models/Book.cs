@@ -19,14 +19,13 @@ namespace BookHub.Api.Models
         [RegularExpression(@"^\d{10}(\d{3})?$", ErrorMessage = "Isbn must be 10 or 13 digits")]
         public string ISBN { get; init; }
 
-        [Required]
         [Range(1, 5)]
-        public int Rating { get; set; }
+        public int? Rating { get; set; }
 
         [Required]
         public bool NoteStatus { get; set; } = false;
 
-        [Required]
+        [RequiredIfRatingSupplied]
         [StringLength(400)]
         [NoBadWords]
         public string Comments { get; set; }

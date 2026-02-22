@@ -1,5 +1,6 @@
 using BookHub.Api.Models;
 using BookHub.Api.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookHub.Api.Services
 {
@@ -15,9 +16,9 @@ namespace BookHub.Api.Services
             SeedData();
         }
 
-        public List<Book> GetAllBooks(string sortBy)
+        public List<Book> GetAllBooks(string? sortBy = "title")
         {
-            return sortBy.ToLower() switch
+            return sortBy?.ToLower() switch
             {
                 "title" => [.. _books.OrderBy(b => b.Title)],
                 "author" => [.. _books.OrderBy(b => b.Author)],
@@ -48,6 +49,18 @@ namespace BookHub.Api.Services
 
         public Book? AddBook(Book book)
         {
+            // book repo must be 25 or less
+            if (_books.Count() >= 25)
+            {
+                throw new InvalidOperationException("Cannot add more than 25 books.");
+            }
+
+            if (!CheckBookRating(book))
+            {
+                throw new ValidationException("Comments are required when a rating is provided.");
+            }
+            
+            book.NoteStatus = book.Rating != null;
             book.Id = _nextId++;
             _books.Add(book);
             return book;
@@ -59,8 +72,13 @@ namespace BookHub.Api.Services
             if (book == null) return null;
 
             // only update properties that are editable on client side
-            book.Comments = newBook.Comments;
             book.Rating = newBook.Rating;
+            book.Comments = newBook.Comments;
+            if (newBook.NoteStatus) book.NoteStatus = newBook.NoteStatus;
+            if (!CheckBookRating(book))
+            {
+                throw new ValidationException("Comments are required when a rating is provided.");
+            }
             return book;
         }
 
@@ -69,6 +87,15 @@ namespace BookHub.Api.Services
             var book = GetBook(id);
             if (book == null) return false;
             _books.Remove(book);
+            return true;
+        }
+
+        static bool CheckBookRating(Book book)
+        {
+            if (book.Rating != null && string.IsNullOrWhiteSpace(book.Comments))
+            {
+                return false;
+            }
             return true;
         }
 

@@ -4,7 +4,7 @@ namespace BookHub.Api.Interfaces
 {
     public interface IBooksService
     {
-        List<Book> GetAllBooks(string sortBy);
+        List<Book> GetAllBooks(string? sortBy);
         List<Book> SearchBooks(string query);
         Book? AddBook(Book book);
         Book? GetBook(int id);
