@@ -41,7 +41,8 @@ button {
   cursor: pointer;
 }
 input,
-select {
+select,
+textarea {
   background-color: white;
   border: 1px solid var(--color-grey-3);
   border-radius: 4px;

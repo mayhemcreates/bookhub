@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {type Book } from '@/types/types'
+import {ModalAction, type Book } from '@/types/types'
 
 const props = defineProps({
   book: {
@@ -7,6 +7,14 @@ const props = defineProps({
     required: true,
   },
 })
+
+const emit = defineEmits<{
+  openModal: [action: ModalAction, book?: Book]
+}>()
+
+const openModal = (action: ModalAction, book?: Book) => {
+  emit('openModal', action, book)
+}
 
 </script>
 <template>
@@ -54,7 +62,7 @@ const props = defineProps({
       </div>
 
       <div class="card__actions">
-        <button class="card__button">
+        <button class="card__button"  @click="openModal(ModalAction.EDIT, props.book)">
           <span class="sr-only">Edit</span>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
             <path
@@ -70,7 +78,7 @@ const props = defineProps({
             />
           </svg>
         </button>
-        <button class="card__button">
+        <button class="card__button" @click="openModal(ModalAction.DELETE, props.book)">
           <span class="sr-only">Delete</span>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
             <path

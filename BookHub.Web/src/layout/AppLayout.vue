@@ -1,6 +1,22 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import SideBar from './SideBar.vue'
 import TopBar from './TopBar.vue'
+import FormModal from '@/layout/FormModal.vue'
+import { ModalAction, type Book } from '@/types/types'
+
+const modalAction = ref<ModalAction | null>(null)
+const selectedBook = ref<Book | null>(null)
+
+const handleOpenModal = (action: ModalAction, book?: Book) => {
+  modalAction.value = action
+  selectedBook.value = book || null
+}
+
+const closeModal = () => {
+  modalAction.value = null
+  selectedBook.value = null
+}
 </script>
 
 <template>
@@ -10,7 +26,14 @@ import TopBar from './TopBar.vue'
       <TopBar />
       <main class="main-section">
         <section class="container">
-          <RouterView></RouterView>
+          <RouterView @open-modal="handleOpenModal"></RouterView>
+          <FormModal
+            v-if="modalAction"
+            :action="modalAction"
+            :book="selectedBook"
+            @close="closeModal"
+          />
+
         </section>
 
       </main>

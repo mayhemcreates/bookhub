@@ -8,3 +8,9 @@ export interface Book {
   comments: string
   imageUrl: string
 }
+
+export enum ModalAction {
+  ADD = 'add',
+  EDIT = 'edit',
+  DELETE = 'delete',
+}

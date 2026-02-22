@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import { useBookStore } from '@/stores/bookStore'
 import BookCard from '@/components/BookCard.vue'
-import { type Book } from '@/types/types'
+import { ModalAction, type Book } from '@/types/types'
 import { onBeforeMount, ref, computed, watch } from 'vue'
 
 const bookStore = useBookStore()
-const bookListRef = ref<HTMLElement | null>(null)
 const currentPage = ref(1)
 const books = ref<Book[]>([])
 const cardsPerPage = 5
+
+const emit = defineEmits<{
+  openModal: [action: ModalAction, book?: Book]
+}>()
+
+const handleOpenModal = (action: ModalAction, book?: Book) => {
+  emit('openModal', action, book)
+}
 
 onBeforeMount(async () => {
   if (bookStore.books.length > 0) {
@@ -67,7 +74,7 @@ const goToPage = (page: number) => {
 
   <ul class="book__list" ref="bookListRef">
     <li v-for="book in paginatedBooks" :key="book.id">
-      <BookCard :book="book" />
+      <BookCard :book="book" @open-modal="handleOpenModal" />
     </li>
   </ul>
 
