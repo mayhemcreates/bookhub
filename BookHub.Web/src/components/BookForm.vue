@@ -1,35 +1,54 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { useBookStore } from '@/stores/bookStore'
-import {ModalAction, type Book } from '@/types/types'
+import { ModalAction, type Book } from '@/types/types'
+import { useBookValidation } from '@/composables/useBookValidation'
 
 const props = defineProps<{
   action: ModalAction
   book?: Book | null
 }>()
 
-const emit = defineEmits<{
-  close: []
-}>()
-
+const emit = defineEmits<{ close: [] }>()
 const bookStore = useBookStore()
-
-// Form fields
-const title = ref(props.book?.title || '')
-const author = ref(props.book?.author || '')
-const isbn = ref(props.book?.isbn || '')
-const rating = ref(props.book?.rating || 0)
-const comments = ref(props.book?.comments || '')
-
 const isEditMode = computed(() => props.action === ModalAction.EDIT)
-const formTitle = computed(() => isEditMode.value ? `Update ${props.book?.title}` : 'Add New Book')
-const submitButtonText = computed(() => isEditMode.value ? 'Update' : 'Add Book')
+const {
+  title,
+  author,
+  isbn,
+  rating,
+  comments,
+  hasAttemptedSubmit,
+  allErrors,
+  isFormValid,
+  fieldIsValid,
+  clearFieldError,
+  resetClearedFields,
+} = useBookValidation(() => isEditMode.value)
+
+if (props.book) {
+  title.value = props.book.title
+  author.value = props.book.author
+  isbn.value = props.book.isbn
+  rating.value = props.book.rating
+  comments.value = props.book.comments
+}
+
+const formTitle = computed(() =>
+  isEditMode.value ? `Update ${props.book?.title}` : 'Add New Book',
+)
+const submitButtonText = computed(() => (isEditMode.value ? 'Update' : 'Add Book'))
 
 const setRating = (value: number) => {
   rating.value = value
 }
 
 const handleSubmit = async () => {
+  resetClearedFields()
+  hasAttemptedSubmit.value = true
+
+  if (!isFormValid.value) return
+
   if (isEditMode.value && props.book) {
     const updatedBook: Book = {
       ...props.book,
@@ -48,7 +67,7 @@ const handleSubmit = async () => {
       rating: rating.value,
       comments: comments.value,
       noteStatus: comments.value.length > 0,
-      imageUrl: 'https://via.placeholder.com/150x220?text=No+Cover'
+      imageUrl: 'https://via.placeholder.com/150x220?text=No+Cover',
     }
     const result = await bookStore.addBook(newBook)
     if (result) {
@@ -61,15 +80,22 @@ const handleSubmit = async () => {
 <template>
   <form class="form">
     <h2>{{ formTitle }}</h2>
-    
+
+    <ul v-if="hasAttemptedSubmit && allErrors.length > 0" class="error-list" role="alert">
+      <li v-for="(error, index) in allErrors" :key="index">{{ error }}</li>
+    </ul>
+
     <label for="title" class="sr-only">Title</label>
     <input
       type="text"
       id="title"
       name="title"
       placeholder="Title"
+      :class="{ 'input-error': fieldIsValid.title }"
       v-model="title"
       :readonly="isEditMode"
+      maxlength="100"
+      @focus="clearFieldError('title')"
     />
 
     <label for="author" class="sr-only">Author</label>
@@ -78,8 +104,11 @@ const handleSubmit = async () => {
       id="author"
       name="author"
       placeholder="Author"
+      :class="{ 'input-error': fieldIsValid.author }"
       v-model="author"
       :readonly="isEditMode"
+      maxlength="100"
+      @focus="clearFieldError('author')"
     />
 
     <label for="isbn" class="sr-only">ISBN</label>
@@ -90,9 +119,12 @@ const handleSubmit = async () => {
       placeholder="ISBN"
       v-model="isbn"
       :readonly="isEditMode"
+      :class="{ 'input-error': fieldIsValid.isbn }"
+      maxlength="100"
+      @focus="clearFieldError('isbn')"
     />
 
-    <fieldset class="rating__fieldset">
+    <fieldset class="rating__fieldset" :class="{ 'input-error': fieldIsValid.rating }">
       <legend class="sr-only">Rating (out of 5 stars)</legend>
       <div class="rating__input" role="radiogroup" aria-label="Book rating">
         <button
@@ -103,6 +135,7 @@ const handleSubmit = async () => {
           :aria-label="`Rate ${index} out of 5 stars`"
           :aria-pressed="rating >= index"
           @click="setRating(index)"
+          @focus="clearFieldError('rating'); clearFieldError('comments')"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
             <path
@@ -121,6 +154,8 @@ const handleSubmit = async () => {
       placeholder="Your notes..."
       v-model="comments"
       rows="5"
+      :class="{ 'input-error': fieldIsValid.comments || fieldIsValid.rating }"
+      @focus="clearFieldError('comments'); clearFieldError('rating')"
     ></textarea>
 
     <button type="submit" class="cta" @click.prevent="handleSubmit">
@@ -129,11 +164,32 @@ const handleSubmit = async () => {
   </form>
 </template>
 <style scoped lang="scss">
-
 .form {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.error-list {
+  background-color: #fef2f2;
+  border: 1px solid #ef4444;
+  border-radius: 4px;
+  padding: 12px 16px 12px 32px;
+  margin: 0;
+  color: #dc2626;
+  font-size: 14px;
+
+  li {
+    margin-bottom: 4px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.input-error {
+  border: 2px solid var(--color-red) !important;
+  background-color: var(--color-pink);
 }
 
 .rating {
